@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useHistory, Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom-v5-compat'
 import {
   Avatar,
   Button,
@@ -101,7 +102,7 @@ SimpleSnackbar.propTypes = {
 }
 
 function Header () {
-  const history = useHistory()
+  const navigate = useNavigate()
   const classes = useStyles()
   const auth = store.getState().authReducer
   const schSave = useSelector(state => state.saveSchematicReducer)
@@ -347,7 +348,7 @@ function Header () {
                 {typography2}
               </MenuItem>
               <MenuItem onClick={() => {
-                store.dispatch(logout(history))
+                store.dispatch(logout(navigate))
               }}
               >
                 Logout

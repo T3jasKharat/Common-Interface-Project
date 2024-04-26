@@ -18,7 +18,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
-import { Link as RouterLink, useHistory } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom-v5-compat'
 import { useSelector, useDispatch } from 'react-redux'
 import { signUp, authDefault, googleLogin } from '../redux/slices/authSlice'
 import google from '../static/google.png'
@@ -57,7 +58,7 @@ export default function SignUp () {
     document.title = 'Sign Up - ' + process.env.REACT_APP_NAME
   }, [dispatch])
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -152,7 +153,7 @@ export default function SignUp () {
             fullWidth
             variant='contained'
             color='primary'
-            onClick={() => dispatch(signUp(email, username, password, history))}
+            onClick={() => dispatch(signUp(email, username, password, navigate))}
             className={classes.submit}
             disabled={!accept}
           >

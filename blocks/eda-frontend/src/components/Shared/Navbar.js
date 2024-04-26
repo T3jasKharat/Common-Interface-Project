@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import { AppBar, Avatar, Button, Fade, IconButton, Link, ListItemText, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { deepPurple } from '@material-ui/core/colors'
-import { Link as RouterLink, useHistory } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom-v5-compat'
 import logo from '../../static/favicon.ico'
 import store from '../../redux/store'
 import { logout } from '../../redux/slices/authSlice'
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 // Common navbar for Dashboard, Home, Gallery, etc.
 export function Header () {
-  const history = useHistory()
+  const navigate = useNavigate()
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const auth = store.getState().authReducer
@@ -199,7 +200,7 @@ export function Header () {
                 {typography}
               </MenuItem>
               <MenuItem onClick={() => {
-                store.dispatch(logout(history))
+                store.dispatch(logout(navigate))
               }}
               >
                 Logout

@@ -1,6 +1,7 @@
 // Main Layout for user dashboard.
 import React, { useEffect } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
+import { CompatRoute } from 'react-router-dom-v5-compat'
 import { CssBaseline } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -40,9 +41,9 @@ export default function Dashboard () {
 
         {/* Subroutes under dashboard section */}
         <Switch>
-          <Route exact path='/dashboard' component={DashboardHome} />
-          <Route exact path='/dashboard/profile' />
-          <Route
+          <CompatRoute exact path='/dashboard' component={DashboardHome} />
+          <CompatRoute exact path='/dashboard/profile' />
+          <CompatRoute
             exact
             path='/dashboard/schematics'
             component={SchematicsList}

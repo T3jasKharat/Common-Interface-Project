@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { HashRouter, Switch, Route } from 'react-router-dom'
+import { CompatRouter, Navigate } from 'react-router-dom-v5-compat'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import Navbar from './components/Shared/Navbar'
@@ -30,7 +31,7 @@ function PrivateRoute ({ component: Component, ...rest }) {
         if (auth?.isLoading) {
           return <CircularProgress style={{ margin: '50vh 50vw' }} />
         } else if (!auth.isAuthenticated) {
-          return <Redirect to='/login' />
+          return <Navigate to='/login' />
         } else {
           return <Component {...props} />
         }
@@ -56,7 +57,7 @@ function PublicRoute ({ component: Component, restricted, nav, ...rest }) {
         if (auth?.isLoading) {
           return <CircularProgress style={{ margin: '50vh 50vw' }} />
         } else if (auth?.isAuthenticated && restricted) {
-          return <Redirect to='/dashboard' />
+          return <Navigate to='/dashboard' />
         } else if (nav) {
           return (<><Navbar /><Component {...props} /></>)
         } else {
@@ -77,17 +78,19 @@ function App () {
   return (
     // Handles Routing for an application
     <HashRouter>
-      <Switch>
-        <PublicRoute exact path='/login' restricted nav={false} component={Login} />
-        <PublicRoute exact path='/signup' restricted nav={false} component={SignUp} />
-        <PublicRoute exact path='/' restricted={false} nav component={Home} />
-        {localStorage.getItem(process.env.REACT_APP_NAME + '_token') !== null
-          ? <PublicRoute exact path='/editor' restricted={false} nav={false} component={SchematicEditor} />
-          : <Route path='/editor' component={SchematicEditor} />}
-        <PublicRoute exact path='/gallery' restricted={false} nav component={Gallery} />
-        <PrivateRoute path='/dashboard' component={Dashboard} />
-        <PublicRoute restricted={false} nav component={NotFound} />
-      </Switch>
+      <CompatRouter>
+        <Switch>
+          <PublicRoute exact path='/login' restricted nav={false} component={Login} />
+          <PublicRoute exact path='/signup' restricted nav={false} component={SignUp} />
+          <PublicRoute exact path='/' restricted={false} nav component={Home} />
+          {localStorage.getItem(process.env.REACT_APP_NAME + '_token') !== null
+            ? <PublicRoute exact path='/editor' restricted={false} nav={false} component={SchematicEditor} />
+            : <Route path='/editor' component={SchematicEditor} />}
+          <PublicRoute exact path='/gallery' restricted={false} nav component={Gallery} />
+          <PrivateRoute path='/dashboard' component={Dashboard} />
+          <PublicRoute restricted={false} nav component={NotFound} />
+        </Switch>
+      </CompatRouter>
     </HashRouter>
   )
 }
